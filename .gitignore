@@ -1,0 +1,8 @@
+*~
+__*
+*.swp
+dist
+build
+*egg-info*
+env
+mongo-data
