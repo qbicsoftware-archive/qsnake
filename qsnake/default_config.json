@@ -1,0 +1,13 @@
+{
+	"flask": {
+		"debug": true,
+		"JOB_WORKDIR": "/tmp",
+		"START_JOB_TIMEO": 1,
+		"JOB_PID_DIR": "/run/qsnake"
+	},
+	"eve": {
+		"MONGO_HOST": "localhost",
+		"MONGO_PORT": 27017,
+		"MONGO_DBNAME": "qsnake"
+	}
+}
