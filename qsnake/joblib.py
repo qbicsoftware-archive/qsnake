@@ -33,7 +33,8 @@ def call_timeout(command, timeout):
     return popen.returncode
 
 
-def submit_job(workdir, timeout, piddir, workflow, jobid, data, params, user):
+def submit_job(workdir, timeout, piddir, workflow, jobid, data, params, user,
+               dropbox, barcode):
     repository, commit = workflow['repository'], workflow['commit']
     logger.info(
         "Starting new job %s. Workflow: %s, user: %s", jobid, repository, user
@@ -42,7 +43,7 @@ def submit_job(workdir, timeout, piddir, workflow, jobid, data, params, user):
     pidfile = os.path.join(piddir, jobid)
 
     with tempfile.NamedTemporaryFile('w') as tmp:
-        json.dumps(params, tmp.file)
+        json.dump(params, tmp.file)
         tmp.file.flush()
         command = [
             'qproject',
@@ -56,15 +57,20 @@ def submit_job(workdir, timeout, piddir, workflow, jobid, data, params, user):
         command.extend(data)
         command += [
             '--jobid', jobid,
-            '--deamon',
-            '--pid-file', pidfile,
+            '--daemon',
+            '--pidfile', pidfile,
+            '--dropbox', dropbox,
+            '--barcode', barcode,
+            '--cleanup',
             os.path.join(workdir, jobid)
         ]
 
         logger.debug("Starting qproject daemon for job %s: %s", jobid, command)
         retcode = call_timeout(command, timeout)
         if retcode:
-            logger.error("Failed to execute qproject. Returncode: %s" % retcode)
+            raise RuntimeError(
+                "Failed to execute qproject. Returncode: %s" % retcode
+            )
 
 
 def job_status(workdir, piddir, jobid):
@@ -81,7 +87,7 @@ def job_status(workdir, piddir, jobid):
             with open(pidfile) as f:
                 pid = int(f.read())
                 try:
-                    os.killpg(pid, 0)
+                    os.kill(pid, 0)
                 except ProcessLookupError:
                     logger.error(
                         "Pidfile %s exists but process is not running", pid
@@ -107,4 +113,4 @@ def abort_job(workdir, piddir, jobid):
         logger.warn("Trying to abort job %s, but it is not running.", jobid)
 
     logger.info("Sending SIGTERM to process group %s of job %s", pid, jobid)
-    os.killpg(pid)
+    os.kill(pid)

@@ -3,7 +3,8 @@
 		"debug": true,
 		"JOB_WORKDIR": "/tmp",
 		"START_JOB_TIMEO": 1,
-		"JOB_PID_DIR": "/run/qsnake"
+		"JOB_PID_DIR": "/run/user/1000",
+		"QPROJECT_DROPBOX": "/tmp/dropbox"
 	},
 	"eve": {
 		"MONGO_HOST": "localhost",

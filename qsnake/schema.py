@@ -52,9 +52,8 @@ jobs = {
             },
             'embeddable': True,
         },
-        'status': {
-            'type': 'string',
-            'allowed': ['failed', 'running', 'finished'],
+        'running': {
+            'type': 'boolean',
         },
         'data': {
             'type': 'list',
