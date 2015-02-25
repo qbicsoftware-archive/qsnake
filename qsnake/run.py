@@ -73,6 +73,7 @@ def submit_job_batch(items):
                 user=user,
                 dropbox=dropbox,
                 barcode=barcode,
+                keep_workdir=item.get('keep_workdir', False),
             )
         except Exception:
             app.data.driver.db['jobs'].update(

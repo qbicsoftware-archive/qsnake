@@ -55,6 +55,9 @@ jobs = {
         'running': {
             'type': 'boolean',
         },
+        'barcode': {
+            'type': 'string',
+        },
         'data': {
             'type': 'list',
             'schema': {
@@ -64,10 +67,6 @@ jobs = {
         },
         'status_detail': {
             'type': 'dict',
-            'required': False,
-        },
-        'no_submit': {
-            'type': 'boolean',
             'required': False,
         },
         'parameters': {
@@ -81,6 +80,10 @@ jobs = {
         'submit_on_POST': {
             'type': 'boolean',
             'required': True,
+        },
+        'keep_workdir': {
+            'type': 'boolean',
+            'default': False,
         }
     }
 }

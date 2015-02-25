@@ -34,7 +34,7 @@ def call_timeout(command, timeout):
 
 
 def submit_job(workdir, timeout, piddir, workflow, jobid, data, params, user,
-               dropbox, barcode):
+               dropbox, barcode, keep_workdir):
     repository, commit = workflow['repository'], workflow['commit']
     logger.info(
         "Starting new job %s. Workflow: %s, user: %s", jobid, repository, user
@@ -48,6 +48,7 @@ def submit_job(workdir, timeout, piddir, workflow, jobid, data, params, user,
         command = [
             'qproject',
             'run',
+            os.path.join(workdir, jobid),
             '--user', user,
             '--workflow', repository,
             '--commit', commit,
@@ -61,9 +62,10 @@ def submit_job(workdir, timeout, piddir, workflow, jobid, data, params, user,
             '--pidfile', pidfile,
             '--dropbox', dropbox,
             '--barcode', barcode,
-            '--cleanup',
-            os.path.join(workdir, jobid)
         ]
+
+        if not keep_workdir:
+            command.append('--cleanup')
 
         logger.debug("Starting qproject daemon for job %s: %s", jobid, command)
         retcode = call_timeout(command, timeout)
