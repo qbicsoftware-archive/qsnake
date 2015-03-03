@@ -48,7 +48,7 @@ def submit_job(workdir, timeout, piddir, workflow, jobid, data, params, user,
         command = [
             'qproject',
             'run',
-            os.path.join(workdir, jobid),
+            '--target', os.path.join(workdir, jobid),
             '--user', user,
             '--workflow', repository,
             '--commit', commit,
