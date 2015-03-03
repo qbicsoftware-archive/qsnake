@@ -24,7 +24,6 @@ workflows = {
             'type': 'string',
             'minlength': 1,
             'required': True,
-            'writeonly': True,
         },
         'version': {
             'type': 'string',
@@ -50,7 +49,6 @@ jobs = {
             'data_relation': {
                 'resource': 'workflows'
             },
-            'embeddable': True,
         },
         'running': {
             'type': 'boolean',
