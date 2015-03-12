@@ -28,7 +28,12 @@ workflows = {
         'version': {
             'type': 'string',
             'minlength': 1,
-            'required': False,
+            'required': True,
+        },
+        'description': {
+            'type': 'string',
+            'minlength': 1,
+            'required': True,
         },
         'graph': {
             'type': 'dict',
